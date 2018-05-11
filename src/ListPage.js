@@ -8,6 +8,7 @@ function ListPage({
                     routeParams,
                     search,
                     cardRows, setCardRows,
+                    selectedCard, selectCard,
                     user, setUser,
                     page, setPage,
                     list, setList,
@@ -20,7 +21,7 @@ function ListPage({
       }}
     >
       {
-        id && <Modal id={id} user={user} />
+        id && selectedCard && <Modal card={selectedCard} />
       }
       <input
         value={user}
@@ -60,6 +61,7 @@ function ListPage({
                   }}
                   onClick={() => {
                     browserHistory.push(`/repoDetails/${e.id}`)
+                    selectCard(e)
                   }}
                   key={e.id}
                 >
@@ -102,6 +104,7 @@ const enhance = compose(
   withState('page', 'setPage', 0),
   withState('list', 'setList', []),
   withState('user', 'setUser', 'octokit'),
+  withState('selectedCard', 'selectCard', null),
 
   withHandlers({
     search: ({user, page, per_page, setList}) => (pageParam) => {

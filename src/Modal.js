@@ -56,25 +56,4 @@ function Modal ({ card }) {
   )
 }
 
-const enhance = compose(
-  withState('card', 'setCard', {}),
-
-  lifecycle({
-    componentWillMount() {
-      const user = this.props.user
-      const id = this.props.id
-      return fetch(`https://api.github.com/orgs/${user}/repos?id=${id}`)
-        .then(response => {
-          return response.json()
-        })
-        .then(card => {
-          this.props.setCard(card)
-        })
-        .catch(e => {
-          alert(`Что-то пошло не так. Подробности: ${e}`)
-        })
-    }
-  }),
-)
-
-export default enhance(Modal)
+export default Modal

@@ -1,8 +1,8 @@
 import React from 'react'
-import {browserHistory} from 'react-router'
-import {compose, withHandlers, withState, lifecycle} from 'recompose'
 import styled from 'styled-components'
-import _ from 'lodash'
+import * as utils from '../utils'
+import { push } from 'react-router-redux'
+import {connect} from 'react-redux';
 
 const Cross = styled.div`
   color: rgba(255,255,255,0.8);
@@ -14,7 +14,7 @@ const Cross = styled.div`
   }
 `
 
-function Modal ({ card }) {
+function Modal ({ card, goToLink }) {
   return (
     <div
       style={{
@@ -35,13 +35,13 @@ function Modal ({ card }) {
       <div style={{ height: '100%', color: 'white' }}>
         <Cross
           onClick={() => {
-            browserHistory.push('/list')
+            goToLink('/list')
           }}
         >
           ×
         </Cross>
         {
-          _.take(_.keys(card).sort(), 6)
+          utils.getCardNRows(card, 6)
             .map((rowKey) => {
               const rowValue = card[rowKey]
               return (
@@ -56,4 +56,12 @@ function Modal ({ card }) {
   )
 }
 
-export default Modal
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    goToLink: function (value) {
+      return dispatch(push(value))
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Modal)

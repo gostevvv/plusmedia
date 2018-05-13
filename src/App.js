@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { Router, Route, Link } from 'react-router-dom'
 import StartPage from './pages/Startup'
 import ListPage from './pages/List'
 import configureStore from './configureStore'
@@ -13,13 +13,13 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <BrowserRouter history={history}>
+        <Router history={history}>
           <div>
             <Route exact path='/' component={StartPage}/>
             <Route path='/list' component={ListPage}/>
             <Route path='/repoDetails/:id' component={ListPage}/>
           </div>
-        </BrowserRouter>
+        </Router>
       </Provider>
     )
   }

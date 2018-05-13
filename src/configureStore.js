@@ -8,7 +8,7 @@ const logger = createLogger({
   collapsed: true,
 })
 
-export default function configureStore (initialState, historyType) {
+export default function configureStore (initialState, history) {
   const store = createStore(
     combineReducers({
       list,
@@ -16,7 +16,7 @@ export default function configureStore (initialState, historyType) {
     }),
     initialState,
     applyMiddleware(
-      routerMiddleware(historyType),
+      routerMiddleware(history),
       thunkMiddleware,
       logger,
     ),

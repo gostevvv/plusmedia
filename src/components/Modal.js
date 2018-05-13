@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import * as utils from '../utils'
-import { push } from 'react-router-redux'
-import {connect} from 'react-redux';
+import { Link } from 'react-router-dom'
 
 const Cross = styled.div`
   color: rgba(255,255,255,0.8);
@@ -14,7 +13,7 @@ const Cross = styled.div`
   }
 `
 
-function Modal ({ card, goToLink }) {
+function Modal ({ card }) {
   return (
     <div
       style={{
@@ -33,13 +32,11 @@ function Modal ({ card, goToLink }) {
       }}
     >
       <div style={{ height: '100%', color: 'white' }}>
-        <Cross
-          onClick={() => {
-            goToLink('/list')
-          }}
+        <Link
+          to="/list"
         >
           ×
-        </Cross>
+        </Link>
         {
           utils.getCardNRows(card, 6)
             .map((rowKey) => {
@@ -56,12 +53,4 @@ function Modal ({ card, goToLink }) {
   )
 }
 
-function mapDispatchToProps (dispatch, ownProps) {
-  return {
-    goToLink: function (value) {
-      return dispatch(push(value))
-    },
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Modal)
+export default Modal

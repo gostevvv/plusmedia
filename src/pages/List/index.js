@@ -6,11 +6,11 @@ import _ from 'lodash'
 import {connect} from 'react-redux';
 import {search, next, setCardRows, setUser, setCard, setPage, } from './actions'
 import { push } from 'react-router-redux'
+import { Link } from 'react-router-dom'
 
 function ListPage({
-                    routeParams,
+                    match,
                     search, next,
-                    goToLink,
                     per_page,
                     cardRows, setCardRows,
                     card, setCard,
@@ -19,7 +19,7 @@ function ListPage({
                     list,
                     isLoading, isLoadedAll
                   }) {
-  const id = routeParams.id
+  const id = _.get(match, 'params.id')
   return (
     <div
       style={{
@@ -46,8 +46,8 @@ function ListPage({
           setCardRows(e.target.value)
         }}
       >
-        <input type="radio" value={2} name="gender" checked={cardRows == 2}/>В карточке две строчки
-        <input type="radio" value={4} name="gender" checked={cardRows == 4}/>В карточке четыре строчки
+        <input type="radio" value={2} name="gender" defaultChecked={cardRows == 2}/>В карточке две строчки
+        <input type="radio" value={4} name="gender" defaultChecked={cardRows == 4}/>В карточке четыре строчки
       </div>
       <div
         style={{
@@ -59,31 +59,31 @@ function ListPage({
         {
           (_.isArray(list) ? list : []).map(e => {
               return (
-                <div
+                <Link
                   style={{
                     cursor: 'pointer',
                     padding: 10,
                     border: '1px solid black',
                     marginRight: 15,
                   }}
+                  to={`/repoDetails/${e.id}`}
                   onClick={() => {
                     setCard(e)
-                    goToLink(`/repoDetails/${e.id}`)
                   }}
                   key={e.id}
                 >
                   {
                     utils.getCardNRows(e, cardRows)
-                      .map((rowKey) => {
+                      .map((rowKey, i) => {
                         const rowValue = e[rowKey]
                         return (
-                          <div>
+                          <div key={i}>
                             {`${rowKey}: ${rowValue}`}
                           </div>
                         )
                       })
                   }
-                </div>
+                </Link>
               )
             }
           )
@@ -141,9 +141,6 @@ function mapDispatchToProps (dispatch, ownProps) {
     },
     setPage: function (value) {
       return dispatch(setPage(value))
-    },
-    goToLink: function (value) {
-      return dispatch(push(value))
     },
   }
 }

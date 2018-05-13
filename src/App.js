@@ -1,41 +1,28 @@
 import React, { Component } from 'react'
-import { Router, Route, browserHistory, Link, IndexRoute } from 'react-router'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import StartPage from './pages/Startup'
 import ListPage from './pages/List'
 import configureStore from './configureStore'
-import { syncHistoryWithStore } from 'react-router-redux';
+import createBrowserHistory from 'history/createBrowserHistory';
 import {Provider} from 'react-redux'
 
-const historyType = browserHistory
-const store = configureStore({}, historyType)
-const history = syncHistoryWithStore(historyType, store)
+const history = createBrowserHistory()
+const store = configureStore({}, history)
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router history={history}>
-          <Route path='/'>
-            <IndexRoute component={StartPage}/>
+        <BrowserRouter history={history}>
+          <div>
+            <Route exact path='/' component={StartPage}/>
             <Route path='/list' component={ListPage}/>
             <Route path='/repoDetails/:id' component={ListPage}/>
-            <Route path="*" component={NoMatch}/>
-          </Route>
-        </Router>
+          </div>
+        </BrowserRouter>
       </Provider>
     )
   }
-}
-
-function NoMatch() {
-  return (
-    <div>
-      Страницы по заданному адресу не существует.
-      <Link to={StartPage}>
-        Перейти на стартовую страницу...
-      </Link>
-    </div>
-  )
 }
 
 export default App

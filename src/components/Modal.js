@@ -32,17 +32,15 @@ function Modal ({ card }) {
       }}
     >
       <div style={{ height: '100%', color: 'white' }}>
-        <Link
-          to="/list"
-        >
+        <Link to="/list">
           ×
         </Link>
         {
           utils.getCardNRows(card, 6)
-            .map((rowKey) => {
+            .map((rowKey,i) => {
               const rowValue = card[rowKey]
               return (
-                <div>
+                <div key={i}>
                   {`${rowKey}: ${rowValue}`}
                 </div>
               )

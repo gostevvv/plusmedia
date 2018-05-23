@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const LoadingIndicator = styled.div`
   color: #001bb3;
@@ -68,10 +68,8 @@ const LoadingIndicator = styled.div`
       transform: rotate(360deg);
     }
   }
-`
+`;
 
-const Loader = () => {
-  return <LoadingIndicator className="loader" title="Подождите, идёт загрузка" />
-}
+const Loader = () => <LoadingIndicator title="Подождите, идёт загрузка" />;
 
-export default Loader
+export default Loader;

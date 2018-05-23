@@ -1,8 +1,8 @@
-import * as types from '../../constants/actionTypes'
-import _ from 'lodash'
+import _ from 'lodash';
+import * as types from '../../constants/actionTypes';
 
 const initialState = {
-  per_page: 3,
+  perPage: 3,
   cardRows: 2,
   page: 1,
   list: [],
@@ -10,9 +10,9 @@ const initialState = {
   card: null,
   isLoading: false,
   isLoadedAll: false,
-}
+};
 
-export default function list (state = initialState, action) {
+export default function list(state = initialState, action) {
   switch (action.type) {
     case types.RECEIVE_SEARCH: {
       return {
@@ -20,7 +20,7 @@ export default function list (state = initialState, action) {
         list: action.object,
         isLoading: false,
         isLoadedAll: _.isEmpty(action.object),
-      }
+      };
     }
     case types.RECEIVE_NEXT: {
       return {
@@ -28,46 +28,46 @@ export default function list (state = initialState, action) {
         list: [...state.list, ...action.object],
         isLoading: false,
         isLoadedAll: _.isEmpty(action.object),
-      }
+      };
     }
     case types.REQUEST_SEARCH: {
       return {
         ...state,
         isLoading: true,
-      }
+      };
     }
     case types.RECEIVE_SEARCH_ERROR: {
       return {
         ...state,
         isLoading: false,
-      }
+      };
     }
     case types.SET_CARD_ROWS: {
       return {
         ...state,
         cardRows: action.object,
-      }
+      };
     }
     case types.SET_PAGE: {
       return {
         ...state,
         page: action.object,
-      }
+      };
     }
     case types.SET_USER: {
       return {
         ...state,
         user: action.object,
-      }
+      };
     }
     case types.SET_CARD: {
       return {
         ...state,
         card: action.object,
-      }
+      };
     }
     default: {
-      return state
+      return state;
     }
   }
 }

@@ -60,10 +60,10 @@ class Modal extends React.Component {
 
 Modal.propTypes = {
   card: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  id: PropTypes.number.isRequired, // eslint-disable-line react/forbid-prop-types
-  user: PropTypes.string.isRequired, // eslint-disable-line react/forbid-prop-types
-  getCard: PropTypes.func.isRequired, // eslint-disable-line react/forbid-prop-types
-  isLoadingCard: PropTypes.bool.isRequired, // eslint-disable-line react/forbid-prop-types
+  id: PropTypes.number.isRequired,
+  user: PropTypes.string.isRequired,
+  getCard: PropTypes.func.isRequired,
+  isLoadingCard: PropTypes.bool.isRequired,
 };
 
 Modal.defaultProps = {

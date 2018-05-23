@@ -1,11 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import getCardNRows from '../../utils';
-import * as actions from './actions';
 
 // Нет нужды в PureComponent или переопределении shouldComponentUpdate, потому что:
 

@@ -9,6 +9,7 @@ const initialState = {
   user: 'octokit',
   card: null,
   isLoading: false,
+  isLoadingCard: false,
   isLoadedAll: false,
 };
 
@@ -60,10 +61,17 @@ export default function list(state = initialState, action) {
         user: action.object,
       };
     }
-    case types.SET_CARD: {
+    case types.REQUEST_CARD: {
+      return {
+        ...state,
+        isLoadingCard: true,
+      };
+    }
+    case types.RECEIVE_CARD: {
       return {
         ...state,
         card: action.object,
+        isLoadingCard: false,
       };
     }
     default: {

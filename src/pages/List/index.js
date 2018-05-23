@@ -2,75 +2,80 @@
 import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { lifecycle, compose } from 'recompose';
 import PropTypes from 'prop-types';
 import List from './List';
 import * as actions from './actions';
-import Modal from '../../components/Modal';
+import Modal from './Modal';
 import Loader from '../../components/Loader';
 
-function ListPage({
-  match,
-  search, next,
-  perPage,
-  cardRows, setCardRows,
-  card,
-  user, setUser,
-  page, setPage,
-  isLoading, isLoadedAll
-}) {
-  const id = _.get(match, 'params.id');
-  return (
-    <div
-      style={{
-        padding: 100,
-      }}
-    >
-      {
-        id && <Modal card={card} />
-      }
-      <input
-        value={user}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') { // Нажали энтер
-            setPage(1);
-            search(user, 1, perPage);
-          }
-        }}
-        onChange={(e) => {
-          setUser(e.target.value);
-        }}
-      />
+class ListPage extends React.Component {
+  componentDidMount() {
+    const nextPage = this.props.page + 1;
+    this.props.setPage(nextPage);
+    this.props.next(this.props.user, nextPage, this.props.perPage);
+  }
+
+  userInputOnKeyPress = (e) => {
+    if (e.key === 'Enter') { // Нажали энтер
+      this.props.setPage(1);
+      this.props.search(this.props.user, 1, this.props.perPage);
+    }
+  }
+
+  userInputOnChange = (e) => {
+    this.props.setUser(e.target.value);
+  }
+
+  setCardRows = (e) => {
+    this.props.setCardRows(e.target.value);
+  }
+
+  loadNextChunk = () => {
+    const nextPage = this.props.page + 1;
+    this.props.setPage(nextPage);
+    this.props.next(this.props.user, nextPage, this.props.perPage);
+  }
+
+  render() {
+    const { props } = this;
+    const id = _.get(props.match, 'params.id');
+    return (
       <div
-        onChange={(e) => {
-          setCardRows(e.target.value);
+        style={{
+          padding: 100,
         }}
       >
-        <input type="radio" value={2} name="gender" defaultChecked={cardRows === 2} />В карточке две строчки
-        <input type="radio" value={4} name="gender" defaultChecked={cardRows === 4} />В карточке четыре строчки
+        {
+          id && <Modal id={id} user={props.user} />
+        }
+        <input
+          value={props.user}
+          onKeyPress={this.userInputOnKeyPress}
+          onChange={this.userInputOnChange}
+        />
+        <div onChange={this.setCardRows}>
+          <input type="radio" value={2} name="gender" defaultChecked={props.cardRows === 2} />В карточке две строчки
+          <input type="radio" value={4} name="gender" defaultChecked={props.cardRows === 4} />В карточке четыре строчки
+        </div>
+        <List />
+        {
+          props.isLoading && <Loader />
+        }
+        {
+          !props.isLoadedAll &&
+          <button
+            style={{
+              display: 'block',
+              marginTop: 15,
+            }}
+            onClick={this.loadNextChunk}
+          >
+            Показать еще
+          </button>
+        }
       </div>
-      <List />
-      {
-        isLoading && <Loader />
-      }
-      {
-        !isLoadedAll &&
-        <button
-          style={{
-            display: 'block',
-            marginTop: 15,
-          }}
-          onClick={() => {
-            const nextPage = page + 1;
-            setPage(nextPage);
-            next(user, nextPage, perPage);
-          }}
-        >
-          Показать еще
-        </button>
-      }
-    </div>
-  );
+    );
+  }
 }
 
 ListPage.propTypes = {
@@ -121,15 +126,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  lifecycle({
-    componentDidMount() {
-      const nextPage = this.props.page + 1;
-      this.props.setPage(nextPage);
-      this.props.next(this.props.user, nextPage, this.props.perPage);
-    }
-  })
-);
-
-export default enhance(ListPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ListPage);

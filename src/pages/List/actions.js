@@ -23,6 +23,21 @@ function requestSearch(object) {
   };
 }
 
+function requestCard(object) {
+  return {
+    type: types.REQUEST_CARD,
+    object,
+  };
+}
+
+function receiveCard(object) {
+  return {
+    type: types.RECEIVE_CARD,
+    object,
+  };
+}
+
+
 export function setCardRows(object) {
   return {
     type: types.SET_CARD_ROWS,
@@ -33,13 +48,6 @@ export function setCardRows(object) {
 export function setUser(object) {
   return {
     type: types.SET_USER,
-    object,
-  };
-}
-
-export function setCard(object) {
-  return {
-    type: types.SET_CARD,
     object,
   };
 }
@@ -72,6 +80,20 @@ export function next(user, page, perPage) {
     return fetchList(user, page, perPage)
       .then((json) => {
         dispatch(receiveNext(json));
+      });
+  };
+}
+
+export function getCard({ id, user }) {
+  return (dispatch) => {
+    dispatch(requestCard({ id, user }));
+    fetch(`https://api.github.com/orgs/${user}/repos?page=0&per_page=10`)
+      .then(response => response.json())
+      .then((json) => {
+        const card = (json || []).find((e) => {
+          return e.id == id;
+        })
+        dispatch(receiveCard(card));
       });
   };
 }

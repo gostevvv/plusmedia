@@ -26,39 +26,38 @@ const StyledLink = styled(Link)`
   margin-right: 15px;
 `;
 
-function List({ list, setCard, cardRows }) {
-  return (
-    <Container>
-      {
-        (_.isArray(list) ? list : []).map(e => (
-          <StyledLink
-            to={`/repoDetails/${e.id}`}
-            onClick={() => {
-                  setCard(e);
-                }}
-            key={e.id}
-          >
-            {
-                  getCardNRows(e, cardRows)
-                    .map((rowKey) => {
-                      const rowValue = e[rowKey];
-                      return (
-                        <div key={rowKey}>
-                          {`${rowKey}: ${rowValue}`}
-                        </div>
-                      );
-                    })
-                }
-          </StyledLink>
-            ))
-      }
-    </Container>
-  );
+class List extends React.Component {
+  render() {
+    const { list, cardRows } = this.props
+    return (
+      <Container>
+        {
+          (_.isArray(list) ? list : []).map(e => (
+            <StyledLink
+              to={`/repoDetails/${e.id}`}
+              key={e.id}
+            >
+              {
+                    getCardNRows(e, cardRows)
+                      .map((rowKey) => {
+                        const rowValue = e[rowKey];
+                        return (
+                          <div key={rowKey}>
+                            {`${rowKey}: ${rowValue}`}
+                          </div>
+                        );
+                      })
+                  }
+            </StyledLink>
+          ))
+        }
+      </Container>
+    );
+  }
 }
 
 List.propTypes = {
   list: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  setCard: PropTypes.func.isRequired,
   cardRows: PropTypes.number.isRequired,
 };
 
@@ -69,12 +68,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setCard(value) {
-      return dispatch(actions.setCard(value));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(mapStateToProps)(List);

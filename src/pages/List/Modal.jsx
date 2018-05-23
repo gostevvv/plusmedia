@@ -29,7 +29,7 @@ class Modal extends React.Component {
   }
 
   render() {
-    const { card, isLoadingCard } = this.props
+    const { card, isLoadingCard } = this.props;
     return (
       <ModalContainer>
         <div style={{ height: '100%', color: 'white' }}>
@@ -68,7 +68,7 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   card: {},
-}
+};
 
 function mapStateToProps(state) {
   return {

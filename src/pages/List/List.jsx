@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import getCardNRows from '../../utils';
@@ -25,34 +25,31 @@ const StyledLink = styled(Link)`
   margin-right: 15px;
 `;
 
-class List extends React.Component {
-  render() {
-    const { list, cardRows } = this.props
-    return (
-      <Container>
-        {
-          (_.isArray(list) ? list : []).map(e => (
-            <StyledLink
-              to={`/repoDetails/${e.id}`}
-              key={e.id}
-            >
-              {
-                    getCardNRows(e, cardRows)
-                      .map((rowKey) => {
-                        const rowValue = e[rowKey];
-                        return (
-                          <div key={rowKey}>
-                            {`${rowKey}: ${rowValue}`}
-                          </div>
-                        );
-                      })
-                  }
-            </StyledLink>
-          ))
-        }
-      </Container>
-    );
-  }
+function List({ list, cardRows }) {
+  return (
+    <Container>
+      {
+        (_.isArray(list) ? list : []).map(e => (
+          <StyledLink
+            to={`/repoDetails/${e.id}`}
+            key={e.id}
+          >
+            {
+                  getCardNRows(e, cardRows)
+                    .map((rowKey) => {
+                      const rowValue = e[rowKey];
+                      return (
+                        <div key={rowKey}>
+                          {`${rowKey}: ${rowValue}`}
+                        </div>
+                      );
+                    })
+                }
+          </StyledLink>
+        ))
+      }
+    </Container>
+  );
 }
 
 List.propTypes = {

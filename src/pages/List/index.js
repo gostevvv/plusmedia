@@ -46,7 +46,7 @@ class ListPage extends React.Component {
         }}
       >
         {
-          id && <Modal id={id} user={props.user} />
+          id && <Modal id={parseInt(id)} user={props.user} />
         }
         <input
           value={props.user}

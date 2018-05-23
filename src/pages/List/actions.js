@@ -90,9 +90,7 @@ export function getCard({ id, user }) {
     fetch(`https://api.github.com/orgs/${user}/repos?page=0&per_page=10`)
       .then(response => response.json())
       .then((json) => {
-        const card = (json || []).find((e) => {
-          return e.id == id;
-        })
+        const card = (json || []).find(e => e.id === id);
         dispatch(receiveCard(card));
       });
   };

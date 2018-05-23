@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import getCardNRows from '../../utils';
-import { setCard } from './actions';
+import * as actions from './actions';
 
 // Нет нужды в PureComponent или переопределении shouldComponentUpdate, потому что:
 
@@ -72,7 +72,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setCard(value) {
-      return dispatch(setCard(value));
+      return dispatch(actions.setCard(value));
     },
   };
 }
